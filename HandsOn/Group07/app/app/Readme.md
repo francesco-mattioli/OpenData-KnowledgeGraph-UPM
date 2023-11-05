@@ -8,6 +8,8 @@ Setup and running the app:
 
 To stop the server, press CTRL+C
 
+Additionally:
+Download rdflib-endpoint: https://pypi.org/project/rdflib-endpoint/
 
 Development In free time:
 Implement auto reload, not to be forced to rerun server after every change
