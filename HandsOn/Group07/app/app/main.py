@@ -2,12 +2,12 @@ from fastapi import FastAPI, APIRouter, Query, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 
 from pathlib import Path
+import rdflib
 from rdflib_endpoint import SparqlRouter
 from typing import Optional, Any
 
 from app.schemas import ChargingStation, StationSearchResults
 from app.data.station_data import STATIONS
-from app.chargerGraph import chargerGraph
 
 
 BASE_PATH = Path(__file__).resolve().parent
@@ -79,7 +79,7 @@ def search_city(
 
 
 sparql_router = SparqlRouter(
-    graph=chargerGraph,
+    graph=rdflib.Graph().parse(str(BASE_PATH / "data" / "rdf.ttl"), format="turtle"),
     path="/chargy/",
     title="SPARQL endpoint for RDFLib graph",
     description='Our charger sparql endpoint',
