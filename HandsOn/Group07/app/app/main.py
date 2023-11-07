@@ -7,9 +7,6 @@ from rdflib_endpoint import SparqlRouter
 from rdflib.plugins.sparql import prepareQuery
 from typing import Optional, Any
 
-from app.schemas import ChargingStation, StationSearchResults
-from app.data.station_data import STATIONS
-
 
 BASE_PATH = Path(__file__).resolve().parent
 TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "templates"))
@@ -30,7 +27,7 @@ def root(request: Request) -> dict:
     )
 
 
-@api_router.get("/search/", status_code=200, response_model=StationSearchResults)
+@api_router.get("/search/", status_code=200)
 def search_station(
         keyword: Optional[str] = Query(None, min_length=3, examples="BMW"),
         max_results: Optional[int] = 10
