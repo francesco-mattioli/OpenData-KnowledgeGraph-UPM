@@ -19,7 +19,7 @@
                     <div class="w-full xl:w-1/4 md:w-1/4">
                         <div class="relative flex flex-col h-full p-8 ">
                             <h2 class="mb-4 font-semibold tracking-widest text-white uppercase title-font">
-                                {{station.name}}
+                                {{station.label}}
                             </h2>
                             <p class="flex items-center mb-2 text-lg font-normal tracking-wide text-white">
                                 <span
@@ -28,7 +28,7 @@
                                         stroke-linejoin="round" stroke-width="2.5" class="w-4 h-4" viewBox="0 0 24 24">
                                         <path d="M20 6L9 17l-5-5"></path>
                                     </svg>
-                                </span>{{station.dbpedia_city}}
+                                </span>{{station.address}}
                             </p>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                                 <span>View Stations </span>
                             </h1>
                             <button
-                                    class="w-full px-4 py-2 mx-auto mt-3 text-white transition duration-500 ease-in-out transform border border-gray-900 rounded-lg text-md hover:bg-gray-900 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 focus:border-gray-700 focus:bg-gray-800 "><a href="{{station.dbpedia_city}}">Visit Site</a>
+                                    class="w-full px-4 py-2 mx-auto mt-3 text-white transition duration-500 ease-in-out transform border border-gray-900 rounded-lg text-md hover:bg-gray-900 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 focus:border-gray-700 focus:bg-gray-800 "><a href="{{station.station}}">Visit Site</a>
                             </button>
                         </div>
                     </div>

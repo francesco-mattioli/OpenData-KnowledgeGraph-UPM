@@ -21,9 +21,26 @@ def root(request: Request) -> dict:
     """
     Root GET
     """
+    g = Graph().parse(str(BASE_PATH / "data" / "rdf-withlinks.ttl"), format="turtle")
+    query = prepareQuery("""
+            PREFIX ont: <https://www.chargeup.io/group07/ontology#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT ?station ?label ?address WHERE {
+                ?station a ont:ChargingStation .
+                ?station ont:hasStreetAddress ?address .
+                ?station rdfs:label ?label .
+            }
+            """)
+    results = g.query(query)
+    output = [
+        {"station": str(result[0]),
+         "label": str(result[1]),
+         "address": str(result[2]),
+         }
+        for result in results]
     return TEMPLATES.TemplateResponse(
         "index.html",
-        {"request": request, "stations": STATIONS}
+        {"request": request, "stations": output}
     )
 
 
