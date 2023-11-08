@@ -50,7 +50,7 @@ def search_station(
         max_results: Optional[int] = 10
 ) -> dict:
     """
-    To implement: Search for stations based on label keyword
+    Todo: implement: Search for stations based on label keyword
     """
     pass
 
@@ -80,6 +80,7 @@ def get_cities() -> any:
 def get_stations() -> any:
     """Get all the stations and their street adresses"""
     g = Graph().parse(str(BASE_PATH / "data" / "rdf-withlinks.ttl"), format="turtle")
+    # TODO: For here and other endpoint: Decide which values of stations are relevant, and query to get all of them
     query = prepareQuery("""
         PREFIX ont: <https://www.chargeup.io/group07/ontology#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
