@@ -15,4 +15,8 @@ Development In free time:
 Implement auto reload, not to be forced to rerun server after every change
 https://stackoverflow.com/questions/63809553/how-to-run-fastapi-application-from-poetry
 
+
 Tymo update testing
+
+update luca
+
