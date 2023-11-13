@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>ChargeUp</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <style>
+            #fetch-stations-btn {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+
+            #fetch-cities-btn {
+                background-color: #008CBA; /* Blue */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+
+            #stations-container {
+                display: none;
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 4px;
+                max-width: 600px; /* Adjust as needed */
+                max-height: 400px; /* Maximum height before scrolling */
+                overflow-y: auto; /* Enable vertical scrolling */
+            }
+            
+            .station-box {
+                border: 1px solid #888;
+                margin: 10px 0;
+                padding: 8px;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+            }
+
+            #cities-container {
+                display: none;
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 4px;
+                max-width: 600px; /* Adjust as needed */
+                max-height: 400px; /* Maximum height before scrolling */
+                overflow-y: auto; /* Enable vertical scrolling */
+            }
+            
+            .city-box {
+                border: 1px solid #888;
+                margin: 10px 0;
+                padding: 8px;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+            }
+
+
+
+            #fetch-stations-by-city-btn {
+                background-color: #ff6200; /* Similar green color */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+
+            #stations-by-city-container {
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 4px;
+                max-width: 600px;
+                max-height: 400px;
+                overflow-y: auto;
+                display: none; /* Initially hidden */
+            }
+
+            .station-by-city-box {
+                border: 1px solid #888;
+                margin: 10px 0;
+                padding: 8px;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+                word-wrap: break-word; /* Breaks long words to prevent overflow */
+                overflow-wrap: break-word; /* Ensures overflow text is broken into new lines */
+            }
+
+            #buttons-container {
+                display: flex;
+                flex-direction: column; /* Stack children vertically */
+                align-items: start; /* Align items to the start of the container */
+            }
+
+            /* You can also adjust the margin of buttons to add space between them */
+            #buttons-container button {
+                margin-bottom: 10px; /* Space between buttons */
+            }
+
+            button {
+                display: block; /* Make buttons block level elements */
+                width: 100%; /* Optional: to make buttons expand the full width */
+                margin-bottom: 10px; /* Space between buttons */
+            }
+
+            #city-name-input {
+                width: 100%; /* Full width */
+                padding: 8px;
+                margin-top: 10px; /* Space between button and input field */
+                margin-bottom: 20px; /* Space between input field and container */
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box; /* Include padding and border in the width */
+            }
+
+            #city-search-container {
+                margin-top: 10px;
+                display: flex;
+                align-items: center;
+            }
+
+            #city-name-input {
+                flex-grow: 1; /* Take up available space */
+                margin-right: 10px; /* Space between input and button */
+                /* ... other styles ... */
+            }
+
+            #fetch-city-by-station-btn {
+                background-color: #ffe600; /* Orange, similar to Fetch Stations by City button */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+
+            #city-by-station-search-container {
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+            }
+
+            #station-name-input {
+                width: 100%; /* Full width */
+                padding: 8px;
+                margin-top: 10px; /* Space between button and input field */
+                margin-bottom: 20px; /* Space between input field and container */
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box; /* Include padding and border in the width */
+            }
+
+            #city-by-station-container {
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 4px;
+                max-width: 600px;
+                max-height: 400px;
+                overflow-y: auto;
+                display: none; /* Initially hidden */
+            }
+
+            .city-by-station-box {
+                border: 1px solid #888;
+                margin: 10px 0;
+                padding: 8px;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+                word-wrap: break-word; /* Breaks long words to prevent overflow */
+                overflow-wrap: break-word; /* Ensures overflow text is broken into new lines */
+            }
+
+            #fetch-additional-info-btn {
+                background-color: #0800ff; /* Orange, similar to Fetch Stations by City button */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+
+            #additional-info-search-container {
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+            }
+
+            #additional-info-input {
+                width: 100%; /* Full width */
+                padding: 8px;
+                margin-top: 10px; /* Space between button and input field */
+                margin-bottom: 20px; /* Space between input field and container */
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box; /* Include padding and border in the width */
+            }
+
+            #additional-info-container {
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 4px;
+                max-width: 600px;
+                max-height: 400px;
+                overflow-y: auto;
+                display: none; /* Initially hidden */
+            }
+
+            .additional-info-box {
+                border: 1px solid #888;
+                margin: 10px 0;
+                padding: 8px;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+                word-wrap: break-word; /* Breaks long words to prevent overflow */
+                overflow-wrap: break-word; /* Ensures overflow text is broken into new lines */
+            }
+
+            #fetch-access-day-time-btn {
+                background-color: #f700ff; /* Choose a color that fits your design */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+
+
+            /* Style for Access Day Time search container */
+            #access-day-time-search-container {
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+            }
+
+            #access-day-time-input {
+                width: 100%; /* Full width */
+                padding: 8px;
+                margin-top: 10px; /* Space between button and input field */
+                margin-bottom: 20px; /* Space between input field and container */
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box; /* Include padding and border in the width */
+            }
+
+            /* Style for Access Day Time results container */
+            #access-day-time-container {
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 4px;
+                max-width: 600px;
+                max-height: 400px;
+                overflow-y: auto;
+                display: none; /* Initially hidden */
+            }
+
+            .access-day-time-box {
+                border: 1px solid #888;
+                margin: 10px 0;
+                padding: 8px;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+                word-wrap: break-word; /* Breaks long words to prevent overflow */
+                overflow-wrap: break-word; /* Ensures overflow text is broken into new lines */
+            }
+
+            /* Button Style for 'Fetch Number of Charging Station Type' */
+            #fetch-number-of-charging-type-btn {
+                background-color: #a200ff; /* Dark orange */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+
+            /* Style for the search container */
+            #number-of-charging-type-search-container {
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+            }
+
+            /* Style for the input within the search container */
+            #number-of-charging-type-input {
+                width: 100%;
+                padding: 8px;
+                margin-top: 10px;
+                margin-right: 10px;
+                margin-bottom: 20px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+            /* Style for the results container */
+            #number-of-charging-type-container {
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 4px;
+                max-width: 600px;
+                max-height: 400px;
+                overflow-y: auto;
+                display: none;
+            }
+
+            /* Style for individual result boxes within the container */
+            .number-of-charging-type-box {
+                border: 1px solid #888;
+                margin: 10px 0;
+                padding: 8px;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+        
+            #fetch-lat-long-btn {
+                background-color: #590079; /* Dark orange */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+
+            /* Style for the search container */
+            #lat-long-search-container {
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+            }
+
+            /* Style for the input within the search container */
+            #lat-long-input {
+                width: 100%;
+                padding: 8px;
+                margin-top: 10px;
+                margin-right: 10px;
+                margin-bottom: 20px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+            /* Style for the results container */
+            #lat-long-container {
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 4px;
+                max-width: 600px;
+                max-height: 400px;
+                overflow-y: auto;
+                display: none;
+            }
+
+            /* Style for individual result boxes within the container */
+            .lat-long-box {
+                border: 1px solid #888;
+                margin: 10px 0;
+                padding: 8px;
+                border-radius: 4px;
+                background-color: #f9f9f9;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+
+
+
+            </style>
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="#page-top"><img src="assets/img/navbar-logo.png" alt="..." /></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <!--<li class="nav-item"><a class="nav-link" href="#dataset">Dataset</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#steps">Steps</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>-->
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container">
+                <div class="masthead-subheading">Welcome To ChargeUp!</div>
+                <div class="masthead-heading text-uppercase">Open Data Knowledge Graphs Project Group 07</div>
+            </div>
+        </header>
+        <section class="page-section">
+            <div class="container px-5 py-12 mx-auto lg:px-20">
+                <div id="buttons-container"></div>
+
+
+                    <button id="fetch-stations-btn">Toggle Stations</button>
+                    <button id="fetch-cities-btn">Fetch Cities</button>
+                    <button id="fetch-stations-by-city-btn">Fetch Stations by City</button>
+
+                    <!-- Search container for 'Fetch Stations By City' -->
+                    <div id="city-search-container" style="display: none;">
+                        <input type="text" id="city-name-input" placeholder="Enter City Name">
+                        <button id="search-city-btn">Search</button>
+                    </div>
+                    
+                    <!-- Button for 'Fetch City By Station' -->
+                    <button id="fetch-city-by-station-btn">Fetch City by Station</button>
+                    
+                    <!-- Search container for 'Fetch City By Station' -->
+                    <div id="city-by-station-search-container" style="display: none;">
+                        <input type="text" id="station-name-input" placeholder="Enter Station Name">
+                        <button id="search-station-btn">Search</button>
+                    </div>
+
+                    <button id="fetch-additional-info-btn">Fetch Additional Info</button>
+
+                    <!-- Search container for 'Fetch Additional Info' -->
+                    <div id="additional-info-search-container" style="display: none;">
+                        <input type="text" id="additional-info-input" placeholder="Enter Station Name">
+                        <button id="search-additional-info-btn">Search</button>
+                    </div>
+
+                    <!-- Button for 'Fetch Access Day Time' -->
+                    <button id="fetch-access-day-time-btn">Fetch Access Day Time</button>
+
+                    <!-- Search container for 'Fetch Access Day Time' -->
+                    <div id="access-day-time-search-container" style="display: none;">
+                        <input type="text" id="access-day-time-input" placeholder="Enter Station Name">
+                        <button id="search-access-day-time-btn">Search</button>
+                    </div>
+
+                    <button id="fetch-number-of-charging-type-btn">Fetch Number of Charging Types</button>
+
+                    <!-- Search container for 'Fetch Number of Charging Types' -->
+                    <div id="number-of-charging-type-search-container" style="display: none;">
+                        <input type="text" id="number-of-charging-type-input" placeholder="Enter Station Name">
+                        <button id="search-number-of-charging-type-btn">Search</button>
+                    </div>
+
+                    <button id="fetch-lat-long-btn">Fetch Lat-Long</button>
+
+                    <!-- Search container for 'Fetch Lat-Long' -->
+                    <div id="lat-long-search-container" style="display: none;">
+                        <input type="text" id="lat-long-input" placeholder="Enter Station Name">
+                        <button id="search-lat-long-btn">Search</button>
+                    </div>
+
+                </div>
+                <div id="stations-container" style="display: none;"></div>
+                <div id="cities-container" style="display: none;"></div>
+                <div id="stations-by-city-container" style="display: none;"></div>
+                <div id="city-by-station-container" style="display: none;"></div>
+                <div id="additional-info-container" style="display: none;"></div>
+                <div id="access-day-time-container" style="display: none;"></div>
+                <div id="number-of-charging-type-container" style="display: none;"></div>
+                <div id="lat-long-container" style="display: none;"></div>
+                    <div>
+                        <div>
+                            <div>
+                                <p>
+                                    <span>
+                                        <svg fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="2.5" class="w-4 h-4" viewBox="0 0 24 24">
+                                            <path d="M20 6L9 17l-5-5"></path>
+                                        </svg>
+                                    </span>{{station.dbpedia_city}}
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <h1>
+                                    <span>View Stations </span>
+                                </h1>
+                                <button>
+                                    <a href="{{station.dbpedia_city}}">Visit Site</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+       
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 text-lg-start">Copyright &copy; ODKG 2023 Group 07</div>
+                </div>
+            </div>
+        </footer>
+        <!-- Portfolio Modals-->
+        <!-- Portfolio item 1 modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/1.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Threads
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Illustration
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio item 2 modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/2.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Explore
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Graphic Design
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio item 3 modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/3.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Finish
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Identity
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio item 4 modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/4.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Lines
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Branding
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio item 5 modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/5.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Southwest
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Website Design
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio item 6 modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase">Project Name</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/6.jpg" alt="..." />
+                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            Window
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            Photography
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script>
+            async function fetchStations() {
+                try {
+                    const response = await fetch('http://localhost:8001/stations/');
+                    if (!response.ok) {
+                      throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    displayStations(data);
+                } catch (error) {
+                    console.error('Fetching stations failed:', error);
+                }
+            }
+
+            async function fetchCities() {
+                try {
+                    const response = await fetch('http://localhost:8001/cities/');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    const cities = await response.json();
+                    displayData(cities, "Cities");
+                } catch (error) {
+                    console.error('Fetching cities failed:', error);
+                }
+            }
+
+            function toggleStationsDisplay() {
+                const container = document.getElementById('stations-container');
+                if (container.style.display === "none" || container.style.display === "") {
+                    container.style.display = "block";
+                    fetchStations();  // Fetch stations only when showing the container
+                } else {
+                    container.style.display = "none";
+                }
+            }
+
+            function toggleCitiesDisplay() {
+                const container = document.getElementById('cities-container');
+                if (container.style.display === "none" || container.style.display === "") {
+                    container.style.display = "block";
+                    fetchCities();  // Fetch cities only when showing the container
+                } else {
+                    container.style.display = "none";
+                }
+            }
+
+        document.getElementById('fetch-cities-btn').addEventListener('click', toggleCitiesDisplay);
+
+        document.getElementById('fetch-stations-btn').addEventListener('click', toggleStationsDisplay);
+
+        function displayStations(stations) {
+            const container = document.getElementById('stations-container');
+            container.innerHTML = ''; // Clear previous results
+            stations.forEach(station => {
+                const div = document.createElement('div');
+                div.classList.add('station-box');
+                div.innerHTML = `Station Name: ${station.label}<br>Address: ${station.address}`;
+                container.appendChild(div);
+            });
+        }
+
+        function displayData(data, dataType) {
+            const container = document.getElementById('stations-by-city-container');
+            container.innerHTML = ''; // Clear previous results
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('station-by-city-box');
+                div.innerHTML = `${JSON.stringify(item)}`;
+                container.appendChild(div);
+            });
+            container.style.display = 'block'; // Ensure the container is visible
+        }
+
+        document.getElementById('fetch-stations-btn').addEventListener('click', fetchStations);
+
+
+        // Function to toggle city search display
+        function toggleStationsByCityDisplay() {
+            const searchContainer = document.getElementById('city-search-container');
+            const resultContainer = document.getElementById('stations-by-city-container');
+            if (searchContainer.style.display === 'none' || searchContainer.style.display === '') {
+                searchContainer.style.display = 'block';
+            } else {
+                searchContainer.style.display = 'none';
+                resultContainer.style.display = 'none'; // Also hide the results container
+            }
+        }
+
+        // Event listener for 'Fetch Stations by City' button
+        document.getElementById('fetch-stations-by-city-btn').addEventListener('click', toggleStationsByCityDisplay);
+
+
+        async function fetchStationsByCity() {
+            const cityName = document.getElementById('city-name-input').value;
+            if (!cityName) {
+                alert("Please enter a city name.");
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:8001/station-by-city2/?city=${encodeURIComponent(cityName)}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const stations = await response.json();
+                displayData(stations, "StationsByCity");
+            } catch (error) {
+                console.error('Fetching stations by city failed:', error);
+            }
+        }
+
+        document.getElementById('search-city-btn').addEventListener('click', fetchStationsByCity);
+
+        function toggleCityByStationSearchDisplay() {
+            const searchContainer = document.getElementById('city-by-station-search-container');
+            const resultContainer = document.getElementById('city-by-station-container');
+            if (searchContainer.style.display === 'none' || searchContainer.style.display === '') {
+                searchContainer.style.display = 'block';
+            } else {
+                searchContainer.style.display = 'none';
+                resultContainer.style.display = 'none'; // Also hide the results container
+            }
+        }
+
+        async function fetchCityByStation() {
+            const stationName = document.getElementById('station-name-input').value;
+            if (!stationName) {
+                alert("Please enter a station name.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8001/city-by-station/?station=${encodeURIComponent(stationName)}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const cityInfo = await response.json();
+                displayCityByStation(cityInfo);
+            } catch (error) {
+                console.error('Fetching city by station failed:', error);
+            }
+        }
+
+        function displayCityByStation(cityInfo) {
+            const container = document.getElementById('city-by-station-container');
+            container.innerHTML = ''; // Clear previous results
+            cityInfo.forEach(info => {
+                const div = document.createElement('div');
+                div.innerHTML = `City: ${info.city}<br>Address: ${info.address}<br>Station: ${info.station}`;
+                container.appendChild(div);
+            });
+            container.style.display = 'block';
+        }
+
+        document.getElementById('fetch-city-by-station-btn').addEventListener('click', toggleCityByStationSearchDisplay);
+        document.getElementById('search-station-btn').addEventListener('click', fetchCityByStation);
+        document.getElementById('station-name-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                fetchCityByStation();
+            }
+        });
+
+        // Function to toggle additional info search display
+        function toggleAdditionalInfoSearchDisplay() {
+            const searchContainer = document.getElementById('additional-info-search-container');
+            const resultContainer = document.getElementById('additional-info-container');
+            if (searchContainer.style.display === 'none' || searchContainer.style.display === '') {
+                searchContainer.style.display = 'block';
+            } else {
+                searchContainer.style.display = 'none';
+                resultContainer.style.display = 'none'; // Also hide the results container
+            }
+        }
+
+        // Event listener for 'Fetch Additional Info' button
+        document.getElementById('fetch-additional-info-btn').addEventListener('click', toggleAdditionalInfoSearchDisplay);
+
+        async function fetchAdditionalInfo() {
+            const stationName = document.getElementById('additional-info-input').value;
+            if (!stationName) {
+                alert("Please enter a station name.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8001/Additional-Info/?station=${encodeURIComponent(stationName)}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const additionalInfo = await response.json();
+                displayAdditionalInfo(additionalInfo);
+            } catch (error) {
+                console.error('Fetching additional info failed:', error);
+            }
+        }
+
+        function displayAdditionalInfo(info) {
+            const container = document.getElementById('additional-info-container');
+            container.innerHTML = ''; // Clear previous results
+            // Assuming info contains relevant information to be displayed
+            info.forEach(item => {
+                const div = document.createElement('div');
+                div.innerHTML = `Station: ${item.station}<br>Additional Info: ${item.additionalInfo}`;
+                container.appendChild(div);
+            });
+            container.style.display = 'block'; // Ensure the container is visible
+        }
+
+        document.getElementById('search-additional-info-btn').addEventListener('click', fetchAdditionalInfo);
+ 
+        // Function to toggle Access Day Time search display
+        function toggleAccessDayTimeSearchDisplay() {
+            const searchContainer = document.getElementById('access-day-time-search-container');
+            const resultContainer = document.getElementById('access-day-time-container');
+            if (searchContainer.style.display === 'none' || searchContainer.style.display === '') {
+                searchContainer.style.display = 'block';
+            } else {
+                searchContainer.style.display = 'none';
+                resultContainer.style.display = 'none'; // Also hide the results container
+            }
+        }
+
+        // Event listener for 'Fetch Access Day Time' button
+        document.getElementById('fetch-access-day-time-btn').addEventListener('click', toggleAccessDayTimeSearchDisplay);
+
+        async function fetchAccessDayTime() {
+            const stationName = document.getElementById('access-day-time-input').value;
+            if (!stationName) {
+                alert("Please enter a station name.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8001/Access-Day-Time/?station=${encodeURIComponent(stationName)}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const accessDayTime = await response.json();
+                displayAccessDayTime(accessDayTime);
+            } catch (error) {
+                console.error('Fetching access day time failed:', error);
+            }
+        }
+
+        function displayAccessDayTime(info) {
+            const container = document.getElementById('access-day-time-container');
+            container.innerHTML = ''; // Clear previous results
+            // Assuming info contains relevant information to be displayed
+            info.forEach(item => {
+                const div = document.createElement('div');
+                div.innerHTML = `Station: ${item.station}<br>Access Day Time: ${item.dayTime}`;
+                container.appendChild(div);
+            });
+            container.style.display = 'block'; // Ensure the container is visible
+        }
+
+        // Event listener for 'Search Access Day Time' button
+        document.getElementById('search-access-day-time-btn').addEventListener('click', fetchAccessDayTime);
+ 
+        // Function to toggle Number of Charging Station Type search display
+        function toggleChargingTypeSearchDisplay() {
+            const searchContainer = document.getElementById('number-of-charging-type-search-container');
+            const resultContainer = document.getElementById('number-of-charging-type-container');
+            if (searchContainer.style.display === 'none' || searchContainer.style.display === '') {
+                searchContainer.style.display = 'block';
+            } else {
+                searchContainer.style.display = 'none';
+                resultContainer.style.display = 'none'; // Also hide the results container
+            }
+        }
+
+        // Event listener for 'Fetch Number of Charging Station Type' button
+        document.getElementById('fetch-number-of-charging-type-btn').addEventListener('click', toggleChargingTypeSearchDisplay);
+
+        async function fetchChargingType() {
+            const stationName = document.getElementById('number-of-charging-type-input').value;
+            if (!stationName) {
+                alert("Please enter a station name.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8001/Number-of-Charging-Type/?station=${encodeURIComponent(stationName)}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const chargingTypes = await response.json();
+                displayChargingTypes(chargingTypes);
+            } catch (error) {
+                console.error('Fetching number of charging station type failed:', error);
+            }
+        }
+
+        function displayChargingTypes(types) {
+            const container = document.getElementById('number-of-charging-type-container');
+            container.innerHTML = ''; // Clear previous results
+            types.forEach(type => {
+                const div = document.createElement('div');
+                div.innerHTML = `Station: ${type.station}<br>EV DC Fast Count: ${type.evDC}<br>EV Level 1 Count: ${type.ev1}<br>EV Level 2 Count: ${type.ev2}`;
+                container.appendChild(div);
+            });
+            container.style.display = 'block'; // Ensure the container is visible
+        }
+
+        // Event listener for 'Search Number of Charging Station Type' button
+        document.getElementById('search-number-of-charging-type-btn').addEventListener('click', fetchChargingType);
+
+        // Function to toggle Lat-Long search display
+        function toggleLatLongSearchDisplay() {
+            const searchContainer = document.getElementById('lat-long-search-container');
+            const resultContainer = document.getElementById('lat-long-container');
+            if (searchContainer.style.display === 'none' || searchContainer.style.display === '') {
+                searchContainer.style.display = 'block';
+            } else {
+                searchContainer.style.display = 'none';
+                resultContainer.style.display = 'none';
+            }
+        }
+
+        // Event listener for 'Fetch Lat-Long' button
+        document.getElementById('fetch-lat-long-btn').addEventListener('click', toggleLatLongSearchDisplay);
+
+        async function fetchLatLong() {
+            const stationName = document.getElementById('lat-long-input').value;
+            if (!stationName) {
+                alert("Please enter a station name.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8001/Lat-Long/?station=${encodeURIComponent(stationName)}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const latLongData = await response.json();
+                displayLatLong(latLongData);
+            } catch (error) {
+                console.error('Fetching latitude and longitude failed:', error);
+            }
+        }
+
+        function displayLatLong(data) {
+            const container = document.getElementById('lat-long-container');
+            container.innerHTML = '';
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.innerHTML = `Station: ${item.station}<br>Latitude: ${item.latitude}<br>Longitude: ${item.longitude}`;
+                container.appendChild(div);
+            });
+            container.style.display = 'block';
+        }
+
+        document.getElementById('search-lat-long-btn').addEventListener('click', fetchLatLong);
+
+            </script>
+    </body>
+</html>
