@@ -14,3 +14,7 @@ HandsOn/Group01/ontology/.DS_Store
 HandsOn/Group01/ontology/.$WasteManagement.drawio.dtmp
 
 .idea
+
+.venv
+
+__pycache__
