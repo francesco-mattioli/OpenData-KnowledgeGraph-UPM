@@ -12,11 +12,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 
-
-
-
 BASE_PATH = Path(__file__).resolve().parent
-TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "templates"))
+print(BASE_PATH)
+TEMPLATES = Jinja2Templates(directory=str(BASE_PATH / "colorlib-search-3"))
 
 app = FastAPI(title="Charging Station API", openapi_url="/openapi.json")
 
@@ -47,15 +45,15 @@ def root(request: Request) -> dict:
             }
             """)
     results = g.query(query)
-    output = [
-        {"station": str(result[0]),
+    station = [
+        {"stations": str(result[0]),
          "label": str(result[1]),
          "address": str(result[2]),
          }
         for result in results]
     return TEMPLATES.TemplateResponse(
-        "index.html",
-        {"request": request, "stations": output}
+        "index1.html",
+        {"request": request, "stations": station}
     )
 
 
@@ -205,7 +203,6 @@ def get_station_by_city(
     output = [
         {"station": str(result[0]),
          "address": str(result[1]),
-         "city": str(result.cityURI),
         }
         for result in results]
     

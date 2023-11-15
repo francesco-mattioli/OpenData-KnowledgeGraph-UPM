@@ -598,6 +598,7 @@ progress {
   content: "— ";
 }
 
+
 .img-fluid {
   max-width: 100%;
   height: auto;
@@ -10843,14 +10844,14 @@ p {
 .page-section h2.section-heading, .page-section .section-heading.h2 {
   font-size: 2.5rem;
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0rem;
 }
 .page-section h3.section-subheading, .page-section .section-subheading.h3 {
   font-size: 1rem;
   font-weight: 400;
   font-style: italic;
   font-family: "Roboto Slab", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  margin-bottom: 4rem;
+  margin-bottom: 0rem;
 }
 
 @media (min-width: 768px) {
@@ -10864,6 +10865,49 @@ p {
   font-size: 1.125rem;
   font-weight: 700;
 }
+.search-container {
+  display: flex;
+  margin-top: 100px;
+  align-items: center;
+  margin: 10px auto; /* Centered horizontally with auto margins */
+  max-width: 800px; /* Adjust this value as needed */
+}
+
+#fetch-stations-btn{
+  display: none;
+}
+
+#station-search-container{
+  /* Add margin-top if needed */
+  margin-top: 20px; /* Adjust this value as needed */
+  /* Other styles */
+}
+
+
+.search-input {
+  flex-grow: 1; /* Allows the search bar to take up the remaining space */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px; /* Rounded corners on the left side */
+  margin-right: -1px; /* Align border with button */
+}
+
+.search-button {
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  padding: 8px 15px; /* Adjusted padding */
+  border: none;
+  border-radius: 0 4px 4px 0; /* Rounded corners on the right side */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 250px;
+}
+
+.search-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+
 
 .btn-social {
   height: 2.5rem;
@@ -10941,18 +10985,34 @@ p {
   #mainNav .navbar-nav .nav-item:last-child {
     margin-right: 0;
   }
+
+  .container {
+    position: relative;
+    text-align: center;
+}
+
+#navbarLogo {
+    position: absolute;
+    top: 10px; /* Adjust the top distance as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: auto;
+    z-index: 1000;
+}
+
 }
 header.masthead {
-  padding-top: 10.5rem;
-  padding-bottom: 6rem;
+  padding-top: 5rem;
+  padding-bottom: 1rem;
   text-align: center;
   color: #fff;
-  background-image: url("../assets/img/header-bg.jpg");
   background-repeat: no-repeat;
   background-attachment: scroll;
-  background-position: center center;
+  background-position: right center; /* Align the image to the right */
   background-size: cover;
 }
+
 header.masthead .masthead-subheading {
   font-size: 1.5rem;
   font-style: italic;
@@ -10968,9 +11028,18 @@ header.masthead .masthead-heading {
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+.search-container {
+  /* Adjust margin and padding as needed */
+  margin-top: 0px; /* You can adjust this to increase/decrease space above the search bar */
+  margin-bottom: -20px; /* Adjust this as needed */
+  /* Other styles */
+}
+
+
+
 @media (min-width: 768px) {
   header.masthead {
-    padding-top: 17rem;
+    padding-top: 10rem;
     padding-bottom: 12.5rem;
   }
   header.masthead .masthead-subheading {
